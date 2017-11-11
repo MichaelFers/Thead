@@ -10,30 +10,36 @@ public class ProdutoraDeMensagens extends Thread{
 
 	public static List<String> mensagens = new ArrayList();
 
-	public ProdutoraDeMensagens() {
 
+	public ProdutoraDeMensagens() {
 	}
 	@Override
 	public void run() {
 
-		int x = Integer.parseInt(JOptionPane.showInputDialog("Informe a quantidade de mensagens que deseja adicionar"));
+		synchronized(this) {
 
-		for(int a=0; a<x; a++) {
-			String msg = JOptionPane.showInputDialog("Informe a mensagem");
-			try {	
-				synchronized (this) {
+			int x = Integer.parseInt(JOptionPane.showInputDialog("Informe a quantidade de mensagens que deseja adicionar"));
+			for(int z=0; z<x; z++) {
+				String msg = JOptionPane.showInputDialog("Informe a mensagem");
+				try {	
 					mensagens.add(msg);
-					System.out.println("foi dormir");
 					this.wait();
-					
-				}
 
-			} catch (InterruptedException e) {
-				System.out.println("entrou no catch Produtora");
-			}
+				}catch (InterruptedException e) {
+					System.out.println("entrou no catch Produtora");
+				}
+			}	
 		}
 	}
-	public List<String> getMensagens(){
-		return this.mensagens;
+	public synchronized String getMensagen(){
+		for(String t: mensagens) {
+			mensagens.remove(t);
+			return t;
+		}
+		return null;
+	}
+	public synchronized List<String> getMensagens() {
+		return mensagens;
 	}
 }
+
