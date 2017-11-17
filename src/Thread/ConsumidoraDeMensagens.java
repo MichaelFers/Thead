@@ -20,7 +20,6 @@ public class ConsumidoraDeMensagens extends Thread{
 			if(pm.getMensagens().size() == 0) {
 
 				try {		
-					System.out.println("foi dormir");
 					this.wait();
 
 				} catch (InterruptedException e) {
